@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:////app/data/purchasing_agent.db
+      - LLM_PROVIDER=${LLM_PROVIDER:-mock}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - MODEL_NAME=${MODEL_NAME:-}
+      - MAX_AGENT_ITERATIONS=${MAX_AGENT_ITERATIONS:-3}
+      - MAX_TOOL_CALLS=${MAX_TOOL_CALLS:-40}
+      - AUTO_APPROVE_LIMIT=${AUTO_APPROVE_LIMIT:-5000}
+      - MOCK_SUPPLIER_CHAOS=${MOCK_SUPPLIER_CHAOS:-false}
+      - FRONTEND_URL=http://localhost:5173
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      backend:
+        condition: service_healthy

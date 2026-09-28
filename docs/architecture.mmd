@@ -1,0 +1,22 @@
+flowchart TB
+    UI["React UI (SSE live trace)"]
+    API["FastAPI REST + SSE"]
+    ORCH["Agent Orchestrator"]
+    TOOLS["Tool Layer"]
+    ERP["Mock ERP DB SQLite"]
+    SUP["Mock Supplier API"]
+    POL["Policy Engine"]
+    VAL["Validator + Post-Action Verifier"]
+    AUD["Audit Log / Trace Store"]
+    APP["Approval Queue"]
+
+    UI --> API
+    API --> ORCH
+    ORCH <--> TOOLS
+    TOOLS --> ERP
+    TOOLS --> SUP
+    ORCH --> POL
+    POL --> ERP
+    ORCH --> VAL
+    ORCH --> AUD
+    ORCH --> APP
