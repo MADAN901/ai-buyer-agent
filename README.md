@@ -4,6 +4,10 @@ Autonomous purchasing agent for retail and quick-commerce fulfillment: investiga
 
 This repo implements a working demo of that architecture: a Python/FastAPI backend, a React + Vite dashboard, a deterministic policy engine, and a mock supplier/fulfillment model that can run completely offline with no API key.
 
+## Live demo
+
+Open the deployed app here: https://ai-buyer-agent-five.vercel.app/
+
 ## UI preview
 
 ![AI Purchasing Agent UI placeholder](https://via.placeholder.com/1600x900.png?text=AI+Purchasing+Agent+UI)
